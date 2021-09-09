@@ -5,6 +5,9 @@ jobs:
     # Only run on PRs if the source branch is on someone else's repo
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-latest
+    strategy:
+       matrix:
+         java: [16, 16.0.1] 
     steps:
       - uses: actions/checkout@v2
         with:
@@ -14,7 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: '16'
+          java-version: ${{ matrix.java }}
       - uses: actions/cache@v2
         with:
           path: |
